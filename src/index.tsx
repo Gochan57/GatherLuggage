@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
+import Root from './Root';
 
-AppRegistry.registerComponent('GatherLuggage', () => App);
+AppRegistry.registerComponent('GatherLuggage', () => Root);
