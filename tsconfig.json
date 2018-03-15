@@ -6,7 +6,7 @@
     "outDir": "build",
     "rootDir": "src",
     "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "experimentalDecorators": true,
     "preserveConstEnums": true,
     "allowJs": true,

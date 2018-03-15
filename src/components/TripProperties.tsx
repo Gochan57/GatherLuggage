@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux';
 
 import * as Model from '../models'
@@ -42,7 +42,7 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
 
     render () {
         return (
-            <View>
+            <View style={[styles.container]}>
                 {this.props.packs.map(pack => this.renderProperty(pack))}
             </View>
         )
@@ -56,3 +56,11 @@ const mapStateToProps = (state: Model.AppState) => {
 }
 
 export const TripProperties = connect(mapStateToProps, {...Actions})(TripPropertiesContainer)
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start'
+    } as React.ViewStyle
+})

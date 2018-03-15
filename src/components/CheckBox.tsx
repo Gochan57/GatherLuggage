@@ -4,7 +4,7 @@ import {
     Text,
     View
 } from 'react-native'
-// import Icon from 'react-native-fa-icons'
+import Icon from 'react-native-vector-icons/dist/FontAwesome'
 
 export interface IProps {
     key?: string
@@ -20,14 +20,14 @@ export interface IState {
 export default class CheckBox extends React.Component<IProps, IState> {
 
     renderCheckItem() {
-        const icon = `fontawesome|${this.props.checked ? 'check-square' : 'square'}`
-        // return <Icon name='square'/>
-        // return <Icon
-        //     name={icon}
-        //     size={150}
-        //     color='#887700'
-        //     style={{}}
-        // />
+        const icon = this.props.checked ? 'check-square' : 'square'
+        return <Icon
+            name={icon}
+            size={15}
+            color='#b6b6b6'
+            onPress={this.props.onCheck}
+            style={styles.check}
+        />
     }
 
     renderLabel() {
@@ -36,7 +36,7 @@ export default class CheckBox extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 {this.renderCheckItem()}
                 {this.renderLabel()}
             </View>
@@ -46,8 +46,11 @@ export default class CheckBox extends React.Component<IProps, IState> {
 
 const styles = StyleSheet.create({
     container: {
-        width: 20,
-        height: 20,
-        backgroundColor: 'red'
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    } as React.ViewStyle,
+    check: {
+        marginRight: 5
     }
 })
