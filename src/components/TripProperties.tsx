@@ -2,9 +2,10 @@ import * as React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { connect } from 'react-redux';
 
+import CheckBox from './CheckBox'
 import * as Model from '../models'
 import * as Actions from '../redux/actions'
-import CheckBox from './CheckBox'
+import Page from './Page'
 
 export interface TripPropertiesProps {
 }
@@ -40,11 +41,26 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
         )
     }
 
-    render () {
+    renderContent() {
         return (
             <View style={[styles.container]}>
                 {this.props.packs.map(pack => this.renderProperty(pack))}
             </View>
+        )
+    }
+
+    render() {
+        return (
+            <Page
+                header={{
+                    title: 'Атрибуты путешествия',
+                    leftButton: {
+                        caption: 'Назад',
+                        onPress: () => {}
+                    }
+                }}
+                content={this.renderContent()}
+            />
         )
     }
 }
@@ -62,5 +78,13 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
-    } as React.ViewStyle
+    } as React.ViewStyle,
+
+
+    test: {
+        flex: 1,
+        resizeMode: 'cover',
+        borderWidth: 1,
+        borderColor: 'blue'
+    } as React.ViewStyle,
 })
