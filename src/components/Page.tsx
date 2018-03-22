@@ -14,7 +14,7 @@ export interface IProps {
 export default class Page extends React.Component<IProps, null> {
     render() {
         return (
-            <View style={[styles.container, styles.test]}>
+            <View style={[styles.container]}>
                 <Header {...this.props.header}/>
                 <View style={styles.content}>
                     {this.props.content}
@@ -27,18 +27,10 @@ export default class Page extends React.Component<IProps, null> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center'
     } as React.ViewStyle,
 
     content: {
         flex: 1,
         padding: 10
     },
-
-    test: {
-        borderWidth: 1,
-        borderColor: 'red'
-    }
 })

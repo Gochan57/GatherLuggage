@@ -94,6 +94,10 @@ const styles = StyleSheet.create({
         height: 30,
     } as React.ViewStyle,
 
+    text: {
+        color: '#4286f4'
+    } as React.ViewStyle,
+
     titleContainer: {
         flex: 4,
         flexDirection: 'column',

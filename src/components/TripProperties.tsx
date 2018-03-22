@@ -1,6 +1,11 @@
 import * as React from 'react'
-import { View, StyleSheet } from 'react-native'
-import { connect } from 'react-redux';
+import {
+    ListView,
+    ListViewDataSource,
+    View,
+    StyleSheet,
+} from 'react-native'
+import {connect} from 'react-redux';
 
 import CheckBox from './CheckBox'
 import * as Model from '../models'
@@ -19,44 +24,67 @@ interface StateProps {
     packs: Model.StuffPack[]
 }
 
-class TripPropertiesContainer extends React.Component<TripPropertiesProps & DispatchProps & StateProps, void> {
+interface State {
+    dataSource: ListViewDataSource
+}
+
+class TripPropertiesContainer extends React.Component<TripPropertiesProps & DispatchProps & StateProps, State> {
     constructor (props: TripPropertiesProps & DispatchProps & StateProps) {
         super(props)
+        this.state = {
+            dataSource: this.ds.cloneWithRows(props.packs),
+        };
     }
+
+    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
     componentWillMount () {
         this.props.initApp()
     }
 
-    renderProperty (pack: Model.StuffPack) {
-        return (
-            <CheckBox
-                label={pack.rus}
-                checked={pack.selected}
-                onCheck={(checked: boolean) => {
-                    this.props.toggleTripProperty(pack.group)
-                }}
-            >
-            </CheckBox>
-        )
+    componentWillReceiveProps (nextProps: TripPropertiesProps & DispatchProps & StateProps) {
+        this.setState({
+            dataSource: this.ds.cloneWithRows(nextProps.packs)
+        })
     }
 
-    renderContent() {
+    renderProperty (pack: Model.StuffPack) {
         return (
-            <View style={[styles.container]}>
-                {this.props.packs.map(pack => this.renderProperty(pack))}
+            <View style={styles.rowContainer}>
+                <CheckBox
+                    label={pack.rus}
+                    checked={pack.selected}
+                    onCheck={(checked: boolean) => {
+                        this.props.toggleTripProperty(pack.group)
+                    }}
+                >
+                </CheckBox>
             </View>
         )
     }
 
-    render() {
+    renderContent () {
+        return (
+            <View style={[styles.container]}>
+                <ListView
+                    dataSource={this.state.dataSource}
+                    renderRow={(data: Model.StuffPack) => {
+                        return this.renderProperty(data)
+                    }}
+                />
+            </View>
+        )
+    }
+
+    render () {
         return (
             <Page
                 header={{
                     title: 'Атрибуты путешествия',
                     leftButton: {
                         caption: 'Назад',
-                        onPress: () => {}
+                        onPress: () => {
+                        }
                     }
                 }}
                 content={this.renderContent()}
@@ -77,14 +105,14 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        paddingTop: 20,
     } as React.ViewStyle,
 
-
-    test: {
-        flex: 1,
-        resizeMode: 'cover',
-        borderWidth: 1,
-        borderColor: 'blue'
+    rowContainer: {
+        height: 30,
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        paddingLeft: 30,
     } as React.ViewStyle,
 })

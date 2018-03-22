@@ -23,7 +23,7 @@ export default class CheckBox extends React.Component<IProps, IState> {
         const icon = this.props.checked ? 'check-square' : 'square'
         return <Icon
             name={icon}
-            size={15}
+            size={20}
             color='#b6b6b6'
             onPress={this.props.onCheck}
             style={styles.check}
@@ -31,7 +31,7 @@ export default class CheckBox extends React.Component<IProps, IState> {
     }
 
     renderLabel() {
-        return <Text>{this.props.label}</Text>
+        return <Text style={styles.label}>{this.props.label}</Text>
     }
 
     render() {
@@ -50,7 +50,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     } as React.ViewStyle,
+
     check: {
         marginRight: 5
-    }
+    } as React.ViewStyle,
+
+    label: {
+        fontSize: 15,
+        marginLeft: 15,
+    } as React.TextStyle,
 })
