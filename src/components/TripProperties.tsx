@@ -36,7 +36,7 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
         };
     }
 
-    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 
     componentWillMount () {
         this.props.initApp()
