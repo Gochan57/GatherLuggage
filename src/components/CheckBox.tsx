@@ -2,6 +2,7 @@ import * as React from 'react'
 import {
     StyleSheet,
     Text,
+    TouchableOpacity,
     View
 } from 'react-native'
 import Icon from 'react-native-vector-icons/dist/FontAwesome'
@@ -19,26 +20,36 @@ export interface IState {
 
 export default class CheckBox extends React.Component<IProps, IState> {
 
-    renderCheckItem() {
+    renderCheckItem () {
         const icon = this.props.checked ? 'check-square' : 'square'
-        return <Icon
-            name={icon}
-            size={20}
-            color='#b6b6b6'
-            onPress={this.props.onCheck}
-            style={styles.check}
-        />
-    }
-
-    renderLabel() {
-        return <Text style={styles.label}>{this.props.label}</Text>
-    }
-
-    render() {
         return (
-            <View style={styles.container}>
-                {this.renderCheckItem()}
+            <View>
+                <Icon
+                    name={icon}
+                    size={20}
+                    color='#b6b6b6'
+                    onPress={this.props.onCheck}
+                    style={[styles.check]}
+                />
+            </View>
+        )
+    }
+
+    renderLabel () {
+        return (
+            <TouchableOpacity onPress={() => {
+                this.props.onCheck(!this.props.checked)
+            }}>
+                <Text style={styles.label}>{this.props.label}</Text>
+            </TouchableOpacity>
+        )
+    }
+
+    render () {
+        return (
+            <View style={[styles.container]}>
                 {this.renderLabel()}
+                {this.renderCheckItem()}
             </View>
         )
     }
@@ -46,8 +57,10 @@ export default class CheckBox extends React.Component<IProps, IState> {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
+        alignSelf: 'stretch',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center'
     } as React.ViewStyle,
 
@@ -59,4 +72,5 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginLeft: 15,
     } as React.TextStyle,
+
 })

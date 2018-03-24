@@ -57,15 +57,14 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
 
     renderProperty (pack: Model.StuffPack) {
         return (
-            <View style={styles.rowContainer}>
+            <View key={pack.group} style={styles.rowContainer}>
                 <CheckBox
                     label={pack.rus}
                     checked={pack.selected}
                     onCheck={(checked: boolean) => {
                         this.props.toggleTripProperty(pack.group)
                     }}
-                >
-                </CheckBox>
+                />
             </View>
         )
     }
@@ -77,6 +76,11 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
                     dataSource={this.state.dataSource}
                     renderRow={(data: Model.StuffPack) => {
                         return this.renderProperty(data)
+                    }}
+                    renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => {
+                        return rowID < this.props.packs.length - 1
+                            ? <View style={styles.separator}/>
+                            : null
                     }}
                 />
                 <View style={styles.buttonContainer}>
@@ -105,16 +109,18 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        paddingTop: 20,
+        alignItems: 'stretch',
+        paddingLeft: 10,
+        paddingRight: 10,
         backgroundColor: 'white',
     } as React.ViewStyle,
 
     rowContainer: {
-        height: 30,
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        paddingLeft: 30,
+        height: 35,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingLeft: 10
     } as React.ViewStyle,
 
     buttonContainer: {
@@ -125,4 +131,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingRight: 10,
     } as React.ViewStyle,
+
+    separator: {
+        alignSelf: 'stretch',
+        height: 0.5,
+        backgroundColor: 'gray',
+    } as React.ViewStyle
 })
