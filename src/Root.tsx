@@ -1,16 +1,33 @@
 import * as React from 'react'
 import {Provider} from 'react-redux'
-import { StyleSheet, Text, View } from 'react-native'
-import store from './redux/store'
+import {
+    StyleSheet,
+    View
+} from 'react-native'
+import {
+    StackNavigator,
+} from 'react-navigation';
 
+import store from './redux/store'
 import {TripProperties} from './components/TripProperties'
+import {Stuff} from './components/Stuff'
+
+const App = StackNavigator(
+    {
+        TripProperties: {screen: TripProperties},
+        Stuff: {screen: Stuff},
+    },
+    {
+        initialRouteName: 'TripProperties'
+    }
+)
 
 export default class Root extends React.Component<{}, void> {
-    render() {
+    render () {
         return (
             <Provider store={store}>
                 <View style={[styles.container]}>
-                    <TripProperties/>
+                    <App/>
                 </View>
             </Provider>
         );

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "i": "rm -rf node_modules && yarn install",
+    "i": "rm -rf node_modules && npm install",
     "build": "rm -rf build && tsc --pretty",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
@@ -12,8 +12,9 @@
     "base-64": "^0.1.0",
     "react": "15.4.1",
     "react-native": "0.39.2",
-    "react-redux": "5.0.2",
     "react-native-vector-icons": "4.5.0",
+    "react-navigation": "1.0.0-beta.13",
+    "react-redux": "5.0.2",
     "redux": "3.6.0",
     "redux-thunk": "2.2.0"
   },

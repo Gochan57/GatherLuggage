@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+    Button,
     ListView,
     ListViewDataSource,
     View,
@@ -10,14 +11,14 @@ import {connect} from 'react-redux';
 import CheckBox from './CheckBox'
 import * as Model from '../models'
 import * as Actions from '../redux/actions'
-import Page from './Page'
 
 export interface TripPropertiesProps {
 }
 
 export interface DispatchProps {
     toggleTripProperty: (group: string) => void
-    initApp: () => void
+    initApp: () => void,
+    navigation: any
 }
 
 interface StateProps {
@@ -29,6 +30,12 @@ interface State {
 }
 
 class TripPropertiesContainer extends React.Component<TripPropertiesProps & DispatchProps & StateProps, State> {
+
+    static navigationOptions = {
+        title: 'Атрибуты путешествия',
+        headerBackTitle: 'Назад'
+    }
+
     constructor (props: TripPropertiesProps & DispatchProps & StateProps) {
         super(props)
         this.state = {
@@ -63,7 +70,7 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
         )
     }
 
-    renderContent () {
+    render () {
         return (
             <View style={[styles.container]}>
                 <ListView
@@ -72,18 +79,14 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
                         return this.renderProperty(data)
                     }}
                 />
+                <Button
+                    onPress={() => {
+                        this.props.navigation.navigate('Stuff')
+                    }}
+                    title='Собираем вещи!'
+                    color="#841584"
+                />
             </View>
-        )
-    }
-
-    render () {
-        return (
-            <Page
-                header={{
-                    title: 'Атрибуты путешествия'
-                }}
-                content={this.renderContent()}
-            />
         )
     }
 }
@@ -99,7 +102,7 @@ export const TripProperties = connect(mapStateToProps, {...Actions})(TripPropert
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'flex-start',
         paddingTop: 20,
     } as React.ViewStyle,

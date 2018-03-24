@@ -12,7 +12,6 @@ import {
 } from 'react-redux'
 
 import CheckBox from './CheckBox'
-import Page from './Page'
 
 export interface StuffProps {
 }
@@ -30,6 +29,11 @@ interface State {
 }
 
 class StuffContainer extends React.Component<StuffProps & DispatchProps & StateProps, State> {
+
+    static navigationOptions = {
+        title: 'Список вещей'
+    }
+
     constructor (props: StuffProps & DispatchProps & StateProps) {
         super(props)
         this.state = {
@@ -54,7 +58,7 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
         )
     }
 
-    renderContent () {
+    render () {
 
         return (
             <View style={styles.container}>
@@ -67,23 +71,6 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
                 {this.props.packs.map(pack => pack.stuff.map(stuff => this.renderStuff(stuff)))}
             </View>
         )
-    }
-
-    render () {
-        return (
-            <Page
-                header={{
-                    title: 'Список вещей',
-                    leftButton: {
-                        caption: 'Назад',
-                        onPress: () => {
-                        }
-                    }
-                }}
-                content={this.renderContent()}
-            />
-        )
-
     }
 }
 
