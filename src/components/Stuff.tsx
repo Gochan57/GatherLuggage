@@ -6,9 +6,10 @@ import * as Model from '../models'
 import * as Actions from '../redux/actions'
 import {
     connect,
-} from 'react-redux';
+} from 'react-redux'
 
 import CheckBox from './CheckBox'
+import Page from './Page'
 
 export interface StuffProps {
 }
@@ -39,12 +40,29 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
         )
     }
 
-    render () {
+    renderContent () {
         return (
             <View>
                 {this.props.packs.map(pack => pack.stuff.map(stuff => this.renderStuff(stuff)))}
             </View>
         )
+    }
+
+    render () {
+        return (
+            <Page
+                header={{
+                    title: 'Список вещей',
+                    leftButton: {
+                        caption: 'Назад',
+                        onPress: () => {
+                        }
+                    }
+                }}
+                content={this.renderContent()}
+            />
+        )
+
     }
 }
 

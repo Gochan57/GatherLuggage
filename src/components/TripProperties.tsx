@@ -80,12 +80,7 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
         return (
             <Page
                 header={{
-                    title: 'Атрибуты путешествия',
-                    leftButton: {
-                        caption: 'Назад',
-                        onPress: () => {
-                        }
-                    }
+                    title: 'Атрибуты путешествия'
                 }}
                 content={this.renderContent()}
             />

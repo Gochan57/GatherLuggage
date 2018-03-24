@@ -37,7 +37,7 @@ export default class Header extends React.Component<IHeaderProps, null> {
             if (button.caption) {
                 element = (
                     <TouchableOpacity onPress={button.onPress}>
-                        <Text style={[]}>{button.caption}</Text>
+                        <Text style={styles.text}>{button.caption}</Text>
                     </TouchableOpacity>
                 )
             }

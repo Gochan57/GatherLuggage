@@ -3,7 +3,6 @@ import {Provider} from 'react-redux'
 import { StyleSheet, Text, View } from 'react-native'
 import store from './redux/store'
 
-// import {App} from './App'
 import {TripProperties} from './components/TripProperties'
 
 export default class Root extends React.Component<{}, void> {
