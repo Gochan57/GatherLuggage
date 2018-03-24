@@ -45,7 +45,7 @@ export class StuffPack {
         this.group = resource.group
         this.rus = resource.rus
         this.stuff = resource.stuff.map(item => new Stuff(item))
-        this.selected = false
+        this.selected = resource.group === 'main'
     }
     group: string
     rus: string

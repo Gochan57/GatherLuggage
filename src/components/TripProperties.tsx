@@ -33,7 +33,7 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
 
     static navigationOptions = {
         title: 'Атрибуты путешествия',
-        headerBackTitle: 'Назад'
+        headerBackTitle: 'Назад',
     }
 
     constructor (props: TripPropertiesProps & DispatchProps & StateProps) {
@@ -79,13 +79,15 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
                         return this.renderProperty(data)
                     }}
                 />
-                <Button
-                    onPress={() => {
-                        this.props.navigation.navigate('Stuff')
-                    }}
-                    title='Собираем вещи!'
-                    color="#841584"
-                />
+                <View style={styles.buttonContainer}>
+                    <Button
+                        onPress={() => {
+                            this.props.navigation.navigate('Stuff')
+                        }}
+                        title='Собираем вещи!'
+                        color='#179cfb'
+                    />
+                </View>
             </View>
         )
     }
@@ -105,6 +107,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         paddingTop: 20,
+        backgroundColor: 'white',
     } as React.ViewStyle,
 
     rowContainer: {
@@ -112,5 +115,14 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         paddingLeft: 30,
+    } as React.ViewStyle,
+
+    buttonContainer: {
+        alignSelf: 'stretch',
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingRight: 10,
     } as React.ViewStyle,
 })

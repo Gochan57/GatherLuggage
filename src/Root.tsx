@@ -18,7 +18,11 @@ const App = StackNavigator(
         Stuff: {screen: Stuff},
     },
     {
-        initialRouteName: 'TripProperties'
+        initialRouteName: 'TripProperties',
+        cardStyle: {
+            backgroundColor: 'white'
+        }
+
     }
 )
 
@@ -37,6 +41,6 @@ export default class Root extends React.Component<{}, void> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-    },
+        backgroundColor: 'white',
+    } as React.ViewStyle,
 });
