@@ -11,6 +11,7 @@ import {
     connect,
 } from 'react-redux'
 
+import * as utils from '../utils'
 import CheckBox from './CheckBox'
 
 export interface StuffProps {
@@ -25,6 +26,7 @@ interface StateProps {
 }
 
 interface State {
+    stuff: Model.Stuff[],
     dataSource: ListViewDataSource
 }
 
@@ -36,18 +38,24 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
 
     constructor (props: StuffProps & DispatchProps & StateProps) {
         super(props)
+        const stuff: Model.Stuff[] = [].concat(...props.packs.map(pack => {
+            return pack.selected ? pack.stuff : []
+        }))
+        const uniqStuff = utils.uniquelyStuff(stuff)
         this.state = {
-            dataSource: this.ds.cloneWithRows([].concat(...props.packs.map(pack => {
-                return pack.selected ? pack.stuff : []
-            }))),
+            stuff: uniqStuff,
+            dataSource: this.ds.cloneWithRows(uniqStuff),
         }
     }
 
     componentWillReceiveProps (nextProps: StuffProps & DispatchProps & StateProps) {
+        const stuff = [].concat(...nextProps.packs.map(pack => {
+            return pack.selected ? pack.stuff : []
+        }))
+        const uniqStuff = utils.uniquelyStuff(stuff)
         this.setState({
-            dataSource: this.ds.cloneWithRows([].concat(...nextProps.packs.map(pack => {
-                return pack.selected ? pack.stuff : []
-            })))
+            stuff: uniqStuff,
+            dataSource: this.ds.cloneWithRows(uniqStuff),
         })
     }
 
@@ -55,9 +63,8 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
 
     renderStuff (stuff: Model.Stuff) {
         return (
-            <View style={styles.rowContainer}>
+            <View key={stuff.key} style={styles.rowContainer}>
                 <CheckBox
-                    key={stuff.key}
                     label={stuff.name}
                     checked={stuff.packed}
                     onCheck={(checked: boolean) => {
@@ -77,6 +84,11 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
                     renderRow={(data: Model.Stuff) => {
                         return this.renderStuff(data)
                     }}
+                    renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => {
+                        return rowID < this.state.stuff.length - 1
+                            ? <View style={styles.separator}/>
+                            : null
+                    }}
                 />
             </View>
         )
@@ -94,15 +106,24 @@ export const Stuff = connect(mapStateToProps, {...Actions})(StuffContainer)
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        paddingTop: 20,
+        justifyContent: 'space-between',
+        alignItems: 'stretch',
+        paddingLeft: 10,
+        paddingRight: 10,
+        backgroundColor: 'white',
     } as React.ViewStyle,
 
     rowContainer: {
-        height: 30,
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        paddingLeft: 30,
+        height: 35,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingLeft: 10
     } as React.ViewStyle,
+
+    separator: {
+        alignSelf: 'stretch',
+        height: 0.5,
+        backgroundColor: 'gray',
+    } as React.ViewStyle
 })
