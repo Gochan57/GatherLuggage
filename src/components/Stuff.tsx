@@ -37,8 +37,18 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
     constructor (props: StuffProps & DispatchProps & StateProps) {
         super(props)
         this.state = {
-            dataSource: this.ds.cloneWithRows([].concat(props.packs.map(pack => pack.stuff))),
+            dataSource: this.ds.cloneWithRows([].concat(...props.packs.map(pack => {
+                return pack.selected ? pack.stuff : []
+            }))),
         }
+    }
+
+    componentWillReceiveProps (nextProps: StuffProps & DispatchProps & StateProps) {
+        this.setState({
+            dataSource: this.ds.cloneWithRows([].concat(...nextProps.packs.map(pack => {
+                return pack.selected ? pack.stuff : []
+            })))
+        })
     }
 
     ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
@@ -68,7 +78,6 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
                         return this.renderStuff(data)
                     }}
                 />
-                {this.props.packs.map(pack => pack.stuff.map(stuff => this.renderStuff(stuff)))}
             </View>
         )
     }
