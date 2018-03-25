@@ -27,8 +27,8 @@ interface StateProps {
 }
 
 interface State {
-    stuff: Model.Stuff[],
-    dataSource: ListViewDataSource
+    unpacked: Model.Stuff[],
+    packed: Model.Stuff[]
 }
 
 class StuffContainer extends React.Component<StuffProps & DispatchProps & StateProps, State> {
@@ -39,28 +39,29 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
 
     constructor (props: StuffProps & DispatchProps & StateProps) {
         super(props)
-        const stuff: Model.Stuff[] = [].concat(...props.packs.map(pack => {
-            return pack.selected ? pack.stuff : []
-        }))
-        const uniqStuff = utils.uniquelyStuff(stuff)
+        const stuff = this.stuffList(props.packs)
         this.state = {
-            stuff: uniqStuff,
-            dataSource: this.ds.cloneWithRows(uniqStuff),
+            unpacked: stuff.filter(item => !item.packed),
+            packed: stuff.filter(item => item.packed),
         }
     }
 
+    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+
     componentWillReceiveProps (nextProps: StuffProps & DispatchProps & StateProps) {
-        const stuff = [].concat(...nextProps.packs.map(pack => {
-            return pack.selected ? pack.stuff : []
-        }))
-        const uniqStuff = utils.uniquelyStuff(stuff)
+        const stuff = this.stuffList(nextProps.packs)
         this.setState({
-            stuff: uniqStuff,
-            dataSource: this.ds.cloneWithRows(uniqStuff),
+            unpacked: stuff.filter(item => !item.packed),
+            packed: stuff.filter(item => item.packed),
         })
     }
 
-    ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    stuffList = (packs: Model.StuffPack[]) => {
+        const stuff: Model.Stuff[] = [].concat(...packs.map(pack => {
+            return pack.selected ? pack.stuff : []
+        }))
+        return utils.uniquelyStuff(stuff)
+    }
 
     renderStuff (stuff: Model.Stuff) {
         const count = stuff.countPerDay && this.props.days
@@ -75,22 +76,35 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
                     onCheck={(checked: boolean) => {
                         this.props.toggleStuff(stuff.key)
                     }}
+                    strikeThrough={true}
                 />
             </View>
         )
     }
 
     render () {
-
+        const {unpacked, packed} = this.state
         return (
             <View style={styles.container}>
                 <ListView
-                    dataSource={this.state.dataSource}
+                    dataSource={this.ds.cloneWithRows(unpacked)}
                     renderRow={(data: Model.Stuff) => {
                         return this.renderStuff(data)
                     }}
                     renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => {
-                        return rowID < this.state.stuff.length - 1
+                        return rowID < this.state.unpacked.length - 1
+                            ? <View style={styles.separator}/>
+                            : null
+                    }}
+                />
+                <View style={{height: 20}}></View>
+                <ListView
+                    dataSource={this.ds.cloneWithRows(packed)}
+                    renderRow={(data: Model.Stuff) => {
+                        return this.renderStuff(data)
+                    }}
+                    renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => {
+                        return rowID < this.state.packed.length - 1
                             ? <View style={styles.separator}/>
                             : null
                     }}
@@ -131,5 +145,5 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         height: 0.5,
         backgroundColor: 'gray',
-    } as React.ViewStyle
+    } as React.ViewStyle,
 })

@@ -11,7 +11,8 @@ export interface IProps {
     key?: string
     label?: string,
     checked: boolean,
-    onCheck: (checked: boolean) => void
+    onCheck: (checked: boolean) => void,
+    strikeThrough?: boolean,
 }
 
 export interface IState {
@@ -36,11 +37,15 @@ export default class CheckBox extends React.Component<IProps, IState> {
     }
 
     renderLabel () {
+        const {checked, label, onCheck, strikeThrough} = this.props
+        const style = strikeThrough && checked
+            ? [styles.label, styles.strikeThrough]
+            : [styles.label]
         return (
             <TouchableOpacity onPress={() => {
-                this.props.onCheck(!this.props.checked)
+                onCheck(!checked)
             }}>
-                <Text style={styles.label}>{this.props.label}</Text>
+                <Text style={style}>{label}</Text>
             </TouchableOpacity>
         )
     }
@@ -73,4 +78,7 @@ const styles = StyleSheet.create({
         marginLeft: 15,
     } as React.TextStyle,
 
+    strikeThrough: {
+        textDecorationLine: 'line-through'
+    } as React.TextStyle
 })
