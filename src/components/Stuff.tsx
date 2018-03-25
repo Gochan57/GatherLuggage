@@ -65,7 +65,7 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
 
     renderStuff (stuff: Model.Stuff) {
         const count = stuff.countPerDay && this.props.days
-            ? Math.round(stuff.countPerDay * this.props.days)
+            ? Math.ceil(stuff.countPerDay * this.props.days)
             : null
         const countText = count ? ` (${count})` : ''
         return (
