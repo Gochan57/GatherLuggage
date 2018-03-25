@@ -74,7 +74,7 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
     }
 
     renderDayPicker () {
-        const days = []
+        const days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
         return (
             <View style={styles.pickerContainer}>
                 <Text style={styles.pickerText}>
@@ -89,17 +89,7 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
                     itemStyle={styles.pickerItem}
                     mode={'dropdown'}
                 >
-                    <Picker.Item label="1" value={1}/>
-                    <Picker.Item label="2" value={2}/>
-                    <Picker.Item label="3" value={3}/>
-                    <Picker.Item label="4" value={4}/>
-                    <Picker.Item label="5" value={5}/>
-                    <Picker.Item label="6" value={6}/>
-                    <Picker.Item label="7" value={7}/>
-                    <Picker.Item label="8" value={8}/>
-                    <Picker.Item label="9" value={9}/>
-                    <Picker.Item label="10" value={10}/>
-                    <Picker.Item label="11" value={11}/>
+                    {days.map(i => <Picker.Item label={`${i}`} value={i}/>)}
                 </Picker>
             </View>
         )
@@ -188,7 +178,7 @@ const styles = StyleSheet.create({
     } as React.TextStyle,
 
     picker: {
-        width: 28,
+        width: 73,
         height: 60,
     } as React.ViewStyle,
 
