@@ -6,7 +6,15 @@ export const packs: Model.StuffPackResource[] = [
         "rus": "основное",
         "stuff": [
             "паспорт",
-            "кошелек"
+            "кошелек",
+            {
+                name: 'футболки',
+                countPerDay: 0.6
+            },
+            {
+                name: 'рубашки',
+                countPerDay: 0.4
+            },
         ]
     },
     {

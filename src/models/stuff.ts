@@ -10,8 +10,7 @@ export interface StuffItem {
     key?: string
     name: string
     required?: boolean
-    takeBeforeDeparture?: boolean
-    count?: number
+    countPerDay?: number
 }
 
 export class Stuff {
@@ -26,16 +25,14 @@ export class Stuff {
         this.key = item.name
         this.name = item.name
         this.required = item.required || false
-        this.takeBeforeDeparture = item.takeBeforeDeparture || false
-        this.count = item.count || 1
+        this.countPerDay = item.countPerDay
         this.prepared = false
         this.packed = false
     }
     key: string
     name: string
     required: boolean
-    takeBeforeDeparture: boolean
-    count: number
+    countPerDay: number
     prepared: boolean
     packed: boolean
 }

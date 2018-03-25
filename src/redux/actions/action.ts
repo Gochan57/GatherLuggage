@@ -25,6 +25,15 @@ export function toggleTripProperty (group: string): Model.Action {
     }
 }
 
+export function setDays (days: number): Model.Action {
+    return {
+        type: 'setDays',
+        payload: {
+            days
+        }
+    }
+}
+
 export function toggleStuff (key: string): Model.Action {
     return {
         type: 'toggleStuff',

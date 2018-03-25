@@ -3,8 +3,10 @@ import {
     Button,
     ListView,
     ListViewDataSource,
-    View,
+    Picker,
     StyleSheet,
+    Text,
+    View,
 } from 'react-native'
 import {connect} from 'react-redux';
 
@@ -16,17 +18,19 @@ export interface TripPropertiesProps {
 }
 
 export interface DispatchProps {
-    toggleTripProperty: (group: string) => void
     initApp: () => void,
+    toggleTripProperty: (group: string) => void
+    setDays: (days: number) => void
     navigation: any
 }
 
 interface StateProps {
-    packs: Model.StuffPack[]
+    packs: Model.StuffPack[],
+    days: number
 }
 
 interface State {
-    dataSource: ListViewDataSource
+    dataSource: ListViewDataSource,
 }
 
 class TripPropertiesContainer extends React.Component<TripPropertiesProps & DispatchProps & StateProps, State> {
@@ -69,6 +73,38 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
         )
     }
 
+    renderDayPicker () {
+        const days = []
+        return (
+            <View style={styles.pickerContainer}>
+                <Text style={styles.pickerText}>
+                    Количество дней поездки
+                </Text>
+                <Picker
+                    selectedValue={this.props.days}
+                    onValueChange={(value: number) => {
+                        this.props.setDays(value)
+                    }}
+                    style={styles.picker}
+                    itemStyle={styles.pickerItem}
+                    mode={'dropdown'}
+                >
+                    <Picker.Item label="1" value={1}/>
+                    <Picker.Item label="2" value={2}/>
+                    <Picker.Item label="3" value={3}/>
+                    <Picker.Item label="4" value={4}/>
+                    <Picker.Item label="5" value={5}/>
+                    <Picker.Item label="6" value={6}/>
+                    <Picker.Item label="7" value={7}/>
+                    <Picker.Item label="8" value={8}/>
+                    <Picker.Item label="9" value={9}/>
+                    <Picker.Item label="10" value={10}/>
+                    <Picker.Item label="11" value={11}/>
+                </Picker>
+            </View>
+        )
+    }
+
     render () {
         return (
             <View style={[styles.container]}>
@@ -80,9 +116,10 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
                     renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => {
                         return rowID < this.props.packs.length - 1
                             ? <View style={styles.separator}/>
-                            : null
+                            : <View style={styles.separator}/>
                     }}
                 />
+                {this.renderDayPicker()}
                 <View style={styles.buttonContainer}>
                     <Button
                         onPress={() => {
@@ -99,7 +136,8 @@ class TripPropertiesContainer extends React.Component<TripPropertiesProps & Disp
 
 const mapStateToProps = (state: Model.AppState) => {
     return {
-        packs: state.stuff.packs
+        packs: state.stuff.packs,
+        days: state.stuff.days
     }
 }
 
@@ -133,7 +171,28 @@ const styles = StyleSheet.create({
 
     separator: {
         alignSelf: 'stretch',
-        height: 0.5,
-        backgroundColor: 'gray',
-    } as React.ViewStyle
+        height: 1,
+        backgroundColor: 'rgb(230,230,230)',
+    } as React.ViewStyle,
+
+    pickerContainer: {
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 25
+    } as React.ViewStyle,
+
+    pickerText: {
+        fontSize: 15
+    } as React.TextStyle,
+
+    picker: {
+        width: 28,
+        height: 60,
+    } as React.ViewStyle,
+
+    pickerItem: {
+        height: 60,
+    } as React.ViewStyle,
 })

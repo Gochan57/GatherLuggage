@@ -25,6 +25,12 @@ const reducer = (state = Default.AppState, action: Action): Model.StuffState => 
                 })
             }
         }
+        case 'setDays': {
+            return {
+                ...state,
+                days: action.payload.days
+            }
+        }
         case 'toggleStuff': {
             return {
                 ...state,

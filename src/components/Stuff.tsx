@@ -22,7 +22,8 @@ export interface DispatchProps {
 }
 
 interface StateProps {
-    packs: Model.StuffPack[]
+    packs: Model.StuffPack[],
+    days: number
 }
 
 interface State {
@@ -62,10 +63,14 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
     ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
 
     renderStuff (stuff: Model.Stuff) {
+        const count = stuff.countPerDay && this.props.days
+            ? Math.round(stuff.countPerDay * this.props.days)
+            : null
+        const countText = count ? ` (${count})` : ''
         return (
             <View key={stuff.key} style={styles.rowContainer}>
                 <CheckBox
-                    label={stuff.name}
+                    label={`${stuff.name}${countText}`}
                     checked={stuff.packed}
                     onCheck={(checked: boolean) => {
                         this.props.toggleStuff(stuff.key)
@@ -97,7 +102,8 @@ class StuffContainer extends React.Component<StuffProps & DispatchProps & StateP
 
 const mapStateToProps = (state: Model.AppState) => {
     return {
-        packs: state.stuff.packs
+        packs: state.stuff.packs,
+        days: state.stuff.days
     }
 }
 
